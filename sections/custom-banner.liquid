@@ -3,16 +3,87 @@
         padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
         padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
     }
+
+    .custom-banner{
+        position: relative;
+    }
+
     @media screen and (min-width: 750px) {
         .section-{{ section.id }} {
-        padding-top: {{ section.settings.padding_top }}px;
-        padding-bottom: {{ section.settings.padding_bottom }}px;
+            padding-top: {{ section.settings.padding_top }}px;
+            padding-bottom: {{ section.settings.padding_bottom }}px;
         }
+        .banner-text-content{
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            padding: 50px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .desktop-content-position-{{ section.settings.desktop_content_position }}{
+            {% if section.settings.desktop_content_position == 'top-left'%}
+                top: 0;
+                left: 0;
+            {% elsif section.settings.desktop_content_position == 'top-center' %}
+                top: 0;
+                left: 50%;
+                transform: translateX(-50%);
+            {% elsif section.settings.desktop_content_position == 'top-right' %}
+                top: 0;
+                right: 0;
+            {% elsif section.settings.desktop_content_position == 'middle-left' %}
+                top: 50%;
+                transform: translateY(-50%);
+                left: 0;
+            {% elsif section.settings.desktop_content_position == 'middle-center' %}
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            {% elsif section.settings.desktop_content_position == 'middle-right' %}
+                top: 50%;
+                transform: translateY(-50%);
+                right: 0;
+            {% elsif section.settings.desktop_content_position == 'bottom-left' %}
+                bottom: 0;
+                left: 0;
+            {% elsif section.settings.desktop_content_position == 'bottom-center' %}
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+            {% else %}
+                bottom: 0;
+                right: 0;
+            {% endif %}
+        }
+
     }
 {% endstyle %}
 <div class="custom-banner section-{{ section.id }}">
-
-    {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+    <div class="banner-container">
+        {% if section.settings.banner != blank %}
+            <img src="{{ section.settings.banner | image_url }}" alt="{{ section.settings.banner.alt }}" width="{{ section.settings.banner.width }}" height="{{ section.settings.banner.height }}" />
+        {% else %}
+            {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+        {% endif %}
+    </div>
+    <div class="banner-text-content desktop-content-position-{{ section.settings.desktop_content_position }}">
+        {% if section.settings.heading != blank %}
+            <h2 class="banner-text-content__head">{{ section.settings.heading }}</h2>
+        {% endif %}
+        {% if section.settings.richtext != blank %}
+            <div class="text-content__richtext-wrapper">
+                {{ section.settings.richtext }}
+            </div>
+        {% endif %}
+        {% if section.settings.banner_button_url != blank %}
+            <a href="{{ section.settings.banner_button_url }}" class="banner-text-content__btn">
+                {{ section.settings.banner_button_text }}
+            </a>
+        {% endif %}
+    </div>
 </div>
 {% schema %}
 {
@@ -91,7 +162,7 @@
                 },
                 {
                 "value": "bottom-left",
-                "label": "Bottom left"
+                "label": "Bottom Left"
                 },
                 {
                 "value": "bottom-center",
