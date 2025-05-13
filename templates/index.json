@@ -49,7 +49,7 @@
         "annoucement_bar": "<p>Find the ideal gift for your loved ones.</p>",
         "button_text": "CHOOSE GIFT",
         "button_url": "#",
-        "button_bg_color": "#FFF544"
+        "button_bg_color": "#fff544"
       }
     },
     "custom_banner_eMNCwL": {
@@ -62,7 +62,7 @@
         "richtext": "<p>Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.</p>",
         "banner_button_text": "SHOP NOW",
         "banner_button_url": "#",
-        "desktop_content_position": "middle-center",
+        "desktop_content_position": "bottom-left",
         "banner_bottom_text": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
       }
     }
