@@ -1,0 +1,58 @@
+.header-logo-container h1{
+    font-weight: 600;
+    font-size: 25px;
+}
+
+.header-logo-container h1 a,
+.custom-announcement-bar *{
+    text-decoration: none;
+    color: #000000;
+}
+
+.custom-announcement-bar{
+    margin: auto 0;
+}
+
+.custom-announcement-bar *{
+    font-family: var(--font-heading-family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 13.42px;
+    letter-spacing: 0px;
+    text-align: center;
+    vertical-align: middle;
+    color: #000000;
+}
+
+.gift-wrap-button-container{
+    margin: auto 0;
+}
+
+.gift-wrap-button-container a.animated-link{
+    font-family: var(--font-heading-family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20.48px;
+    letter-spacing: 0px;
+    text-align: center;
+    vertical-align: middle;
+    text-transform: uppercase;
+    padding: 11px 41px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    text-decoration: none;
+    color: #000000;
+}
+
+.gift-wrap-button-container a.animated-link span{
+    padding-left: 22px;
+}
+
+.gift-wrap-button-container a.animated-link span svg{
+    position: absolute;
+    right: 0%;
+    top: 50%;
+    transform: translate(0%, -50%);
+    margin-right: 22px;
+}

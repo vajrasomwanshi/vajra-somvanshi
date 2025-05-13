@@ -1,0 +1,120 @@
+{% style %}
+    .section-{{ section.id }}{
+        padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+        padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    }
+    @media screen and (min-width: 750px) {
+        .section-{{ section.id }} {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+        }
+    }
+{% endstyle %}
+<div class="custom-banner section-{{ section.id }}">
+
+    {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+</div>
+{% schema %}
+{
+    "name": "Custom Banner",
+    "settings": [
+        {
+            "type": "range",
+            "id": "padding_top",
+            "label": "Top spacing",
+            "min": 20,
+            "max": 80,
+            "step": 10,
+            "default": 60
+        },
+        {
+            "type": "range",
+            "id": "padding_bottom",
+            "label": "Bottom spacing",
+            "min": 20,
+            "max": 80,
+            "step": 10,
+            "default": 60
+        },
+        {
+            "type": "image_picker",
+            "id": "banner",
+            "label": "Select banner"
+        },
+        {
+            "type": "text",
+            "id": "heading",
+            "label": "Heading"
+        },
+        {
+            "type": "richtext",
+            "id": "richtext",
+            "label": "Banner Content"
+        },
+        {
+            "type": "text",
+            "id": "banner_button_text",
+            "label": "Button Text"
+        },
+        {
+            "type": "url",
+            "id": "banner_button_url",
+            "label": "Button URL"
+        },
+        {
+            "type": "select",
+            "id": "desktop_content_position",
+            "options": [
+                {
+                "value": "top-left",
+                "label": "Top Left"
+                },
+                {
+                "value": "top-center",
+                "label": "Top Center"
+                },
+                {
+                "value": "top-right",
+                "label": "Top Right"
+                },
+                {
+                "value": "middle-left",
+                "label": "Middle Left"
+                },
+                {
+                "value": "middle-center",
+                "label": "Middle Center"
+                },
+                {
+                "value": "middle-right",
+                "label": "Middle Right"
+                },
+                {
+                "value": "bottom-left",
+                "label": "Bottom left"
+                },
+                {
+                "value": "bottom-center",
+                "label": "Bottom Center"
+                },
+                {
+                "value": "bottom-right",
+                "label": "Bottom Right"
+                }
+            ],
+            "default": "middle-center",
+            "label": "Middle Center"
+        },
+        {
+            "type": "text",
+            "id": "banner_bottom_text",
+            "label": "Banner Bottom Text"
+        }
+    ],
+    "presets": [
+        {
+            "name": "Custom Banner"
+        }
+    ]
+}
+{% endschema %}
