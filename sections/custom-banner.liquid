@@ -2,10 +2,91 @@
     .section-{{ section.id }}{
         padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
         padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+        position: relative;
+    }
+
+    .banner-container img{
+        width: 100%;
+        height: auto;
+        object-fit: cover;
     }
 
     .custom-banner{
         position: relative;
+    }
+
+    h2.banner-text-content__head{
+        font-family: var(--font-heading-family);
+        font-weight: 500;
+        font-size: 70px;
+        line-height: 100%;
+        letter-spacing: 0px;
+        vertical-align: middle;
+        color: #000000;
+        margin: 0;
+    }
+
+    .text-content__richtext-wrapper{
+        font-family: var(--font-heading-family);
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 140%;
+        letter-spacing: 0px;
+        vertical-align: middle;
+        margin-bottom: 50px;
+    }
+
+    .text-content__richtext-wrapper *{
+        color: #000000;
+        text-decoration: none;
+        margin: unset;
+    }
+
+    .section-{{ section.id }} .gift-wrap-button-container a{
+        background-color: {{ section.settings.button_bg_color}};
+        color: #ffffff;
+    }
+
+    .section-{{ section.id }} .gift-wrap-button-container a.animated-link svg path{
+        fill: #ffffff;
+    }
+
+    .section-{{ section.id }} a.animated-link {
+        background: linear-gradient(to right, #FFF544  50%, {{ section.settings.button_bg_color }} 50%);
+        background-size: 200% 102%;
+        background-position: right bottom;
+        transition: background-position 0.5s ease-out, color 0.5s ease-out;
+        width: fit-content;
+    }
+
+    .section-{{ section.id }} a.animated-link:hover {
+        background-position: left bottom;
+        color: #000000; /* Optional: text color matches yellow background */
+    }
+
+    .section-{{ section.id }} .gift-wrap-button-container a.animated-link:hover svg path{
+        fill: #000000 !important;
+    }
+
+    .banner-text-content{
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        padding: 50px;
+        {% if section.settings.content_bg_color != blank %}
+            background-color: {{ section.settings.content_bg_color }};
+        {% endif %}
+    }
+
+    .banner-bottom-content{
+        font-family: var(--font-heading-family);
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 13.42px;
+        letter-spacing: 0px;
+        text-align: center;
+        vertical-align: middle;
+        padding: 10px 0;
     }
 
     @media screen and (min-width: 750px) {
@@ -15,24 +96,22 @@
         }
         .banner-text-content{
             position: absolute;
-            height: 100%;
+            height: auto;
             width: 100%;
+            max-width: 600px;
             padding: 50px;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
         }
 
         .desktop-content-position-{{ section.settings.desktop_content_position }}{
             {% if section.settings.desktop_content_position == 'top-left'%}
-                top: 0;
+                top: 50px;
                 left: 0;
             {% elsif section.settings.desktop_content_position == 'top-center' %}
-                top: 0;
+                top: 50px;
                 left: 50%;
                 transform: translateX(-50%);
             {% elsif section.settings.desktop_content_position == 'top-right' %}
-                top: 0;
+                top: 50px;
                 right: 0;
             {% elsif section.settings.desktop_content_position == 'middle-left' %}
                 top: 50%;
@@ -47,24 +126,27 @@
                 transform: translateY(-50%);
                 right: 0;
             {% elsif section.settings.desktop_content_position == 'bottom-left' %}
-                bottom: 0;
+                bottom: 50px;
                 left: 0;
             {% elsif section.settings.desktop_content_position == 'bottom-center' %}
-                bottom: 0;
+                bottom: 50px;
                 left: 50%;
                 transform: translateX(-50%);
             {% else %}
-                bottom: 0;
+                bottom: 50px;
                 right: 0;
             {% endif %}
         }
 
+        h2.banner-text-content__head{
+            margin-bottom: 50px;
+        }
     }
 {% endstyle %}
 <div class="custom-banner section-{{ section.id }}">
     <div class="banner-container">
         {% if section.settings.banner != blank %}
-            <img src="{{ section.settings.banner | image_url }}" alt="{{ section.settings.banner.alt }}" width="{{ section.settings.banner.width }}" height="{{ section.settings.banner.height }}" />
+            <img src="{{ section.settings.banner | image_url: width: 2400 }}" alt="{{ section.settings.banner.alt }}" width="{{ section.settings.banner.width }}" height="{{ section.settings.banner.height }}" />
         {% else %}
             {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
         {% endif %}
@@ -79,10 +161,15 @@
             </div>
         {% endif %}
         {% if section.settings.banner_button_url != blank %}
-            <a href="{{ section.settings.banner_button_url }}" class="banner-text-content__btn">
-                {{ section.settings.banner_button_text }}
-            </a>
+            <div class="gift-wrap-button-container">
+                <a href="{{ section.settings.banner_button_url }}" class="animated-link">{{ section.settings.banner_button_text }}
+                    <span>{% render 'arrow' %}</span>
+                </a>
+            </div>
         {% endif %}
+    </div>
+    <div class="banner-bottom-content" style="background-color: {{ section.settings.banner_bottom_text_bg_color }}; text-align: center;">
+        {{ section.settings.banner_bottom_text }}
     </div>
 </div>
 {% schema %}
@@ -93,24 +180,30 @@
             "type": "range",
             "id": "padding_top",
             "label": "Top spacing",
-            "min": 20,
+            "min": 0,
             "max": 80,
             "step": 10,
-            "default": 60
+            "default": 0
         },
         {
             "type": "range",
             "id": "padding_bottom",
             "label": "Bottom spacing",
-            "min": 20,
+            "min": 0,
             "max": 80,
             "step": 10,
-            "default": 60
+            "default": 0
         },
         {
             "type": "image_picker",
             "id": "banner",
             "label": "Select banner"
+        },
+        {
+            "type": "color",
+            "id": "content_bg_color",
+            "label": "Content Background Color",
+            "default": "#ffffff"
         },
         {
             "type": "text",
@@ -126,11 +219,6 @@
             "type": "text",
             "id": "banner_button_text",
             "label": "Button Text"
-        },
-        {
-            "type": "url",
-            "id": "banner_button_url",
-            "label": "Button URL"
         },
         {
             "type": "select",
@@ -177,9 +265,26 @@
             "label": "Middle Center"
         },
         {
+            "type": "url",
+            "id": "banner_button_url",
+            "label": "Button URL"
+        },
+        {
+            "type": "color",
+            "id": "button_bg_color",
+            "label": "Button Background",
+            "default": "#000000"
+        },
+        {
             "type": "text",
             "id": "banner_bottom_text",
             "label": "Banner Bottom Text"
+        },
+        {
+            "type": "color",
+            "id": "banner_bottom_text_bg_color",
+            "label": "Banner Bottom Text Background",
+            "default": "#F5F5F5"
         }
     ],
     "presets": [
