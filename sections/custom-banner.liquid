@@ -11,7 +11,8 @@
         object-fit: cover;
     }
 
-    .custom-banner{
+    .custom-banner,
+    .banner-text-content-outer-wrapper{
         position: relative;
     }
 
@@ -151,22 +152,24 @@
             {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
         {% endif %}
     </div>
-    <div class="banner-text-content desktop-content-position-{{ section.settings.desktop_content_position }}">
-        {% if section.settings.heading != blank %}
-            <h2 class="banner-text-content__head">{{ section.settings.heading }}</h2>
-        {% endif %}
-        {% if section.settings.richtext != blank %}
-            <div class="text-content__richtext-wrapper">
-                {{ section.settings.richtext }}
-            </div>
-        {% endif %}
-        {% if section.settings.banner_button_url != blank %}
-            <div class="gift-wrap-button-container">
-                <a href="{{ section.settings.banner_button_url }}" class="animated-link">{{ section.settings.banner_button_text }}
-                    <span>{% render 'arrow' %}</span>
-                </a>
-            </div>
-        {% endif %}
+    <div class="page-width banner-text-content-outer-wrapper">
+        <div class="banner-text-content desktop-content-position-{{ section.settings.desktop_content_position }}">
+            {% if section.settings.heading != blank %}
+                <h2 class="banner-text-content__head">{{ section.settings.heading }}</h2>
+            {% endif %}
+            {% if section.settings.richtext != blank %}
+                <div class="text-content__richtext-wrapper">
+                    {{ section.settings.richtext }}
+                </div>
+            {% endif %}
+            {% if section.settings.banner_button_url != blank %}
+                <div class="gift-wrap-button-container">
+                    <a href="{{ section.settings.banner_button_url }}" class="animated-link">{{ section.settings.banner_button_text }}
+                        <span>{% render 'arrow' %}</span>
+                    </a>
+                </div>
+            {% endif %}
+        </div>
     </div>
     <div class="banner-bottom-content" style="background-color: {{ section.settings.banner_bottom_text_bg_color }}; text-align: center;">
         {{ section.settings.banner_bottom_text }}

@@ -40,6 +40,7 @@
     },
     "custom_header_Aehbk9": {
       "type": "custom-header",
+      "disabled": true,
       "name": "Custom Header",
       "settings": {
         "padding_top": 0,
@@ -69,11 +70,79 @@
         "banner_bottom_text": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL",
         "banner_bottom_text_bg_color": "#f5f5f5"
       }
+    },
+    "custom_product_grid_Dcdfrw": {
+      "type": "custom-product-grid",
+      "blocks": {
+        "product_9DipkH": {
+          "type": "product",
+          "settings": {
+            "product": "black-leather-bag",
+            "horizontal": 64,
+            "vertical": 60
+          }
+        },
+        "product_zyNNFQ": {
+          "type": "product",
+          "settings": {
+            "product": "blue-silk-tuxedo",
+            "horizontal": 90,
+            "vertical": 60
+          }
+        },
+        "product_LiJkzg": {
+          "type": "product",
+          "settings": {
+            "product": "chequered-red-shirt",
+            "horizontal": 62,
+            "vertical": 26
+          }
+        },
+        "product_3tnimT": {
+          "type": "product",
+          "settings": {
+            "product": "classic-leather-jacket",
+            "horizontal": 74,
+            "vertical": 22
+          }
+        },
+        "product_HLp4tg": {
+          "type": "product",
+          "settings": {
+            "product": "classic-varsity-top",
+            "horizontal": 50,
+            "vertical": 29
+          }
+        },
+        "product_DHFgCf": {
+          "type": "product",
+          "settings": {
+            "product": "dark-denim-top",
+            "horizontal": 82,
+            "vertical": 44
+          }
+        }
+      },
+      "block_order": [
+        "product_9DipkH",
+        "product_zyNNFQ",
+        "product_LiJkzg",
+        "product_3tnimT",
+        "product_HLp4tg",
+        "product_DHFgCf"
+      ],
+      "name": "Custom Product grid",
+      "settings": {
+        "heading": "Tisso vison in the wild",
+        "padding_top": 90,
+        "padding_bottom": 50
+      }
     }
   },
   "order": [
     "featured_collection",
     "custom_header_Aehbk9",
-    "custom_banner_eMNCwL"
+    "custom_banner_eMNCwL",
+    "custom_product_grid_Dcdfrw"
   ]
 }
