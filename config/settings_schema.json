@@ -126,6 +126,16 @@
       },
       {
         "type": "header",
+        "content": "Heading h4"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_header_h4_font",
+        "default": "assistant_n4",
+        "label": "Font"
+      },
+      {
+        "type": "header",
         "content": "t:settings_schema.typography.settings.header__2.content"
       },
       {

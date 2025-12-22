@@ -1,53 +1,23 @@
+{{ 'custom-product-grid.css' |  asset_url |  stylesheet_tag }}
 {% style %}
-    @font-face {
-        font-family: 'lustria';
-        src: url('{{ "lustria-regular.ttf" | asset_url }}') format('truetype');
-        font-weight: normal;
-        font-style: normal;
-        font-display: swap;
-    }
     .section-{{ section.id }}{
         padding-top: {{ section.settings.padding_top  }}px;
         padding-bottom: {{ section.settings.padding_bottom }}px;
     }
-    .custom-product-grid__title{
-        font-family: "lustria", serif;
-        font-weight: 400;
-        font-size: 36px;
-        line-height: 120%;
-        vertical-align: middle;
-        margin: 0 0 30px 0;
-    }
-    .custom-product-grid-wrapper{
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 20px;
-    }
-    .custom-product-grid__item{
-        width: 32%;
-        height: 444px;
-        position: relative;
-    }
-    .custom-product-grid__item img{
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-    .custom-quickview-atc-btn{
-        all: unset;
-        position: absolute;
-        z-index: 999;
-    }
+
     {% for block in section.blocks %}
         .block-id-{{ block.id }} .custom-quickview-atc-btn{
             top: {{ block.settings.vertical }}%;
             left: {{ block.settings.horizontal }}%;
-            transform: translate(-{{ block.settings.vertical }}%, -{{ block.settings.horizontal }}% );
-
+            transform: translate(-{{ block.settings.vertical }}%, -{{ block.settings.horizontal }}%);
+        }
+        .block-id-{{ block.id }} .custom-quickview-atc-btn:hover{
+            transform: translate(-{{ block.settings.vertical }}%, -{{ block.settings.horizontal }}%) scale(1.1);
         }
     {% endfor %}
+
 {% endstyle %}
+
 <div class="page-width custom-product-grid-container section-{{ section.id }}">
     {% if section.settings.heading != blank %}
         <h3 class="custom-product-grid__title">
@@ -57,14 +27,246 @@
     <div class="custom-product-grid-wrapper">
         {% for block in section.blocks %}
             <div class="custom-product-grid__item block-id-{{ block.id }}">
-                <img src="{{ block.settings.product.featured_media |  image_url  }}" alt="{{ block.settings.product.featured_media.alt }}" width="{{ block.settings.product.featured_media.width }}" height="{{ block.settings.product.featured_media.height }}">
-                <button class="custom-quickview-atc-btn">
+                <img src="{{ block.settings.product.featured_media | image_url }}" alt="{{ block.settings.product.featured_media.alt }}" width="{{ block.settings.product.featured_media.width }}" height="{{ block.settings.product.featured_media.height }}">
+                <button class="custom-quickview-atc-btn" data-product-handle="{{ block.settings.product.handle }}" data-product-id="{{ block.settings.product.id }}">
                     {{ 'icon-atc-plus.svg' | inline_asset_content }}
                 </button>
             </div>
         {% endfor %}
     </div>
 </div>
+
+<!-- Quickview Modal -->
+<div class="quickview-modal" id="quickviewModal">
+    <div class="quickview-modal__content">
+        <button class="quickview-modal__close" id="closeModal">
+            {{ 'icon-popup-close.svg' | inline_asset_content }}
+        </button>
+        <div class="quickview-modal__body">
+            <div class="quickview-modal__body-inner-wrapper">
+                <div class="quickview-modal__image">
+                    <img id="modalImage" src="" alt="">
+                </div>
+                <div class="quickview-modal__body-content">
+                    <h4 class="quickview-modal__title" id="modalTitle"></h4>
+                    <div class="quickview-modal__price" id="modalPrice"></div>
+                    <div class="quickview-modal__description" id="modalDescription"></div>
+                </div>
+            </div>
+            <div class="quickview-modal__details">
+                <div id="modalOptions"></div>
+                <button class="quickview-modal__atc-btn" id="modalAddToCart">ADD TO CART</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    const modal = document.getElementById('quickviewModal');
+    const closeBtn = document.getElementById('closeModal');
+    const addToCartBtn = document.getElementById('modalAddToCart');
+    let currentProduct = null;
+    let selectedVariant = null;
+
+    // Open modal when clicking quickview buttons
+    document.querySelectorAll('.custom-quickview-atc-btn').forEach(btn => {
+        btn.addEventListener('click', async function() {
+            const productHandle = this.getAttribute('data-product-handle');
+            await loadProduct(productHandle);
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    // Close modal
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    function closeModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // Load product data
+    async function loadProduct(handle) {
+        try {
+            const response = await fetch(`/products/${handle}.js`);
+            currentProduct = await response.json();
+            selectedVariant = currentProduct.variants[0];
+            renderProduct();
+        } catch (error) {
+            console.error('Error loading product:', error);
+        }
+    }
+
+    // Render product in modal
+    function renderProduct() {
+        if (!currentProduct) return;
+
+        document.getElementById('modalImage').src = currentProduct.featured_image;
+        document.getElementById('modalTitle').textContent = currentProduct.title;
+        document.getElementById('modalPrice').textContent = formatMoney(selectedVariant.price);
+        const description = currentProduct.description;
+        const words = description.split(' ');
+        const truncated = words.slice(0, 15).join(' ') + (words.length > 15 ? '...' : '');
+        document.getElementById('modalDescription').innerHTML = truncated;
+        renderOptions();
+        updateAddToCartButton();
+    }
+
+    // Render variant options
+    function renderOptions() {
+        const optionsContainer = document.getElementById('modalOptions');
+        optionsContainer.innerHTML = '';
+
+        if (currentProduct.options.length === 1 && currentProduct.options[0].name === 'Title') {
+            return;
+        }
+
+        currentProduct.options.forEach((option, index) => {
+            const optionDiv = document.createElement('div');
+            optionDiv.className = 'quickview-modal__options';
+
+            const label = document.createElement('label');
+            label.className = 'quickview-modal__option-label';
+            label.textContent = option.name;
+            optionDiv.appendChild(label);
+
+            // Show Size as dropdown, other options as buttons
+            if (option.name.toLowerCase() === 'size') {
+                // Always show size as dropdown
+                const select = document.createElement('select');
+                select.className = 'quickview-modal__select';
+                
+                option.values.forEach(value => {
+                    const optionEl = document.createElement('option');
+                    optionEl.value = value;
+                    optionEl.textContent = value;
+                    if (selectedVariant[`option${index + 1}`] === value) {
+                        optionEl.selected = true;
+                    }
+                    select.appendChild(optionEl);
+                });
+                
+                select.addEventListener('change', (e) => {
+                    updateVariant(index, e.target.value);
+                });
+                
+                optionDiv.appendChild(select);
+            } else {
+                // Show other options (like Color) as buttons
+                const btnContainer = document.createElement('div');
+                btnContainer.className = 'quickview-modal__variant-selector';
+                
+                option.values.forEach(value => {
+                    const btn = document.createElement('button');
+                    btn.className = 'quickview-modal__variant-btn';
+                    btn.textContent = value;
+                    btn.type = 'button';
+                    
+                    if (selectedVariant[`option${index + 1}`] === value) {
+                        btn.classList.add('active');
+                    }
+                    
+                    btn.addEventListener('click', () => {
+                        updateVariant(index, value);
+                    });
+                    
+                    btnContainer.appendChild(btn);
+                });
+                
+                optionDiv.appendChild(btnContainer);
+            }
+
+            optionsContainer.appendChild(optionDiv);
+        });
+    }
+
+    // Update selected variant
+    function updateVariant(optionIndex, value) {
+        const options = [
+            selectedVariant.option1,
+            selectedVariant.option2,
+            selectedVariant.option3
+        ];
+        options[optionIndex] = value;
+
+        const newVariant = currentProduct.variants.find(v => {
+            return v.option1 === options[0] &&
+                   (options[1] === undefined || v.option2 === options[1]) &&
+                   (options[2] === undefined || v.option3 === options[2]);
+        });
+
+        if (newVariant) {
+            selectedVariant = newVariant;
+            document.getElementById('modalPrice').textContent = formatMoney(selectedVariant.price);
+            renderOptions();
+            updateAddToCartButton();
+        }
+    }
+
+    // Update add to cart button state
+    function updateAddToCartButton() {
+        if (selectedVariant.available) {
+            addToCartBtn.disabled = false;
+            addToCartBtn.textContent = 'ADD TO CART';
+        } else {
+            addToCartBtn.disabled = true;
+            addToCartBtn.textContent = 'SOLD OUT';
+        }
+    }
+
+    // Add to cart
+    addToCartBtn.addEventListener('click', async function() {
+        if (!selectedVariant || !selectedVariant.available) return;
+
+        this.disabled = true;
+        this.textContent = 'ADDING...';
+
+        try {
+            const response = await fetch('/cart/add.js', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: selectedVariant.id,
+                    quantity: 1
+                })
+            });
+
+            if (response.ok) {
+                this.textContent = 'ADDED!';
+                setTimeout(() => {
+                    closeModal();
+                    // Trigger cart update event
+                    document.documentElement.dispatchEvent(new CustomEvent('cart:refresh'));
+                }, 500);
+            } else {
+                throw new Error('Failed to add to cart');
+            }
+        } catch (error) {
+            console.error('Error adding to cart:', error);
+            this.textContent = 'ERROR';
+            setTimeout(() => {
+                updateAddToCartButton();
+            }, 2000);
+        }
+    });
+
+    // Format money
+    function formatMoney(cents) {
+        const amount = (cents / 100).toFixed(2);
+        return `{{ cart.currency.symbol }}${amount}`;
+    }
+})();
+</script>
+
 {% schema %}
 {
     "name": "Custom Product grid",
@@ -114,7 +316,7 @@
                     "label": "Horizontal position",
                     "min": 0,
                     "max": 100,
-                    "default": 0,
+                    "default": 50,
                     "step": 1
                 },
                 {
@@ -123,7 +325,7 @@
                     "label": "Vertical position",
                     "min": 0,
                     "max": 100,
-                    "default": 0,
+                    "default": 50,
                     "step": 1
                 }
             ]
