@@ -98,6 +98,7 @@
 }
 .quickview-modal__body-inner-wrapper{
     display: flex;
+    justify-content: space-between;
 }
 
 .quickview-modal__body-content{
@@ -107,7 +108,7 @@
 .quickview-modal__image {
     flex: 0 0 45%;
     max-width: 120px;
-    max-height: 140px;
+    min-height: 140px;
     background: #f5f5f5;
 }
 .quickview-modal__image img {
@@ -128,7 +129,7 @@
     font-size: 16px;
     line-height: 120%;
     vertical-align: middle;
-    margin: 13px 0 0 0;
+    margin: 2px 0 0 0;
 }
 .quickview-modal__price {
     font-family: "lustria", serif;
@@ -147,30 +148,42 @@
     line-height: 110.00000000000001%;
     letter-spacing: -1px;
 }
-.quickview-modal__options {
-    margin-bottom: 20px;
+.quickview-modal__description p {
+    margin: 0;
 }
 .quickview-modal__option-label {
+    font-family: var(--font-heading-family);
+    font-weight: 400;
     font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 8px;
-    display: block;
-    color: #333;
+    line-height: 130%;
+    letter-spacing: 0%;
+    color: #333333;
+}
+#modalOptions{
+    display: flex;
+    flex-direction: column-reverse;
+    margin-top: 10px;
+    margin-bottom: 51px;
+    row-gap: 12px;
 }
 .quickview-modal__variant-selector {
     display: flex;
-    gap: 8px;
     flex-wrap: wrap;
-    margin-bottom: 20px;
 }
 .quickview-modal__variant-btn {
-    padding: 10px 20px;
-    border: 2px solid #ddd;
+    font-family: var(--font-heading-family);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 100%;
+    text-transform: capitalize;
+    border: 1px solid #000000;
     background: white;
+    color: #000000;
     cursor: pointer;
-    font-size: 14px;
-    border-radius: 4px;
     transition: all 0.2s;
+    padding: 11px 10px;
+    width: 50%;
+    text-align: left;
 }
 .quickview-modal__variant-btn:hover {
     border-color: #333;

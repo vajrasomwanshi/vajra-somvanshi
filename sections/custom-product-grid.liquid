@@ -113,7 +113,7 @@
         document.getElementById('modalPrice').textContent = formatMoney(selectedVariant.price);
         const description = currentProduct.description;
         const words = description.split(' ');
-        const truncated = words.slice(0, 15).join(' ') + (words.length > 15 ? '...' : '');
+        const truncated = words.slice(0, 15).join(' ') + (words.length > 15 ? '' : '');
         document.getElementById('modalDescription').innerHTML = truncated;
         renderOptions();
         updateAddToCartButton();
