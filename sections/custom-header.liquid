@@ -2,6 +2,7 @@
 {% style %}
     .custom-header .page-width{
         display: flex;
+        align-items: center;
         justify-content: space-between;
         margin: auto;
     }
@@ -42,6 +43,11 @@
 {% endstyle %}
 <div class="custom-header section-{{ section.id }}">
     <div class="page-width">
+        <div class="mobile-header-wrapper">
+            <button class="mobile-nav-toggle" aria-controls="MobileNav" aria-expanded="false">
+                {{ 'icon-mobile-menu.svg' | inline_asset_content }}
+            </button>
+        </div>
         <div class="header-logo-container">
             {% if section.settings.site_logo_text != blank %}
                 <h1><a href="/">{{ section.settings.site_logo_text }}</a></h1>

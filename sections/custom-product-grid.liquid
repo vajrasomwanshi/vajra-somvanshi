@@ -54,7 +54,10 @@
             </div>
             <div class="quickview-modal__details">
                 <div id="modalOptions"></div>
-                <button class="quickview-modal__atc-btn" id="modalAddToCart">ADD TO CART</button>
+                <button class="quickview-modal__atc-btn" id="modalAddToCart">
+                    ADD TO CART
+                    <span class="span-right-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="12" viewBox="0 0 36 12" fill="none"><path d="M0.75 4.77295L9.20657e-08 4.77295L-9.20657e-08 6.27295L0.75 6.27295L0.75 4.77295ZM34.9798 6.05328C35.2727 5.76039 35.2727 5.28551 34.9798 4.99262L30.2068 0.21965C29.9139 -0.0732432 29.4391 -0.0732433 29.1462 0.21965C28.8533 0.512544 28.8533 0.987417 29.1462 1.28031L33.3888 5.52295L29.1462 9.76559C28.8533 10.0585 28.8533 10.5334 29.1462 10.8263C29.4391 11.1191 29.9139 11.1191 30.2068 10.8263L34.9798 6.05328ZM0.75 6.27295L34.4495 6.27295L34.4495 4.77295L0.75 4.77295L0.75 6.27295Z" fill="white"/></svg></span>
+                </button>
             </div>
         </div>
     </div>
@@ -92,6 +95,35 @@
             'beige': '#f5f5dc',
             'cream': '#fffdd0'
         };
+    }
+
+    // Handle select rotation
+    function setupSelectRotation(selectElement) {
+        selectElement.addEventListener('mousedown', function() {
+            this.classList.add('open');
+            rotateSelectArrow(this, true);
+        });
+
+        selectElement.addEventListener('change', function() {
+            // Keep open state until blur
+        });
+
+        selectElement.addEventListener('blur', function() {
+            this.classList.remove('open');
+            rotateSelectArrow(this, false);
+        });
+    }
+
+    function rotateSelectArrow(selectElement, isOpen) {
+        if (isOpen) {
+            selectElement.style.backgroundImage = 
+                'linear-gradient(to right, transparent 0%, transparent calc(100% - 45px), #000000 calc(100% - 45px), #000000 calc(100% - 44px), transparent calc(100% - 44px)),' +
+                'url("data:image/svg+xml,%3Csvg width=\'15\' height=\'9\' viewBox=\'0 0 15 9\' fill=\'none\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M13.0607 7.06067L7.06067 1.06067L1.06067 7.06067\' stroke=\'black\' stroke-width=\'1.5\' stroke-linecap=\'square\'/%3E%3C/svg%3E")';
+        } else {
+            selectElement.style.backgroundImage = 
+                'linear-gradient(to right, transparent 0%, transparent calc(100% - 45px), #000000 calc(100% - 45px), #000000 calc(100% - 44px), transparent calc(100% - 44px)),' +
+                'url("data:image/svg+xml,%3Csvg width=\'15\' height=\'9\' viewBox=\'0 0 15 9\' fill=\'none\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M1.06067 1.06067L7.06067 7.06067L13.0607 1.06067\' stroke=\'black\' stroke-width=\'1.5\' stroke-linecap=\'square\'/%3E%3C/svg%3E")';
+        }
     }
 
     // Open modal when clicking quickview buttons
@@ -181,6 +213,9 @@
                 select.addEventListener('change', (e) => {
                     updateVariant(index, e.target.value);
                 });
+
+                // Setup rotation for this select
+                setupSelectRotation(select);
                 
                 optionDiv.appendChild(select);
             } else {
@@ -268,7 +303,7 @@
     function updateAddToCartButton() {
         if (selectedVariant.available) {
             addToCartBtn.disabled = false;
-            addToCartBtn.textContent = 'ADD TO CART';
+            addToCartBtn.innerHTML = 'ADD TO CART <span class="span-right-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="12" viewBox="0 0 36 12" fill="none"><path d="M0.75 4.77295L9.20657e-08 4.77295L-9.20657e-08 6.27295L0.75 6.27295L0.75 4.77295ZM34.9798 6.05328C35.2727 5.76039 35.2727 5.28551 34.9798 4.99262L30.2068 0.21965C29.9139 -0.0732432 29.4391 -0.0732433 29.1462 0.21965C28.8533 0.512544 28.8533 0.987417 29.1462 1.28031L33.3888 5.52295L29.1462 9.76559C28.8533 10.0585 28.8533 10.5334 29.1462 10.8263C29.4391 11.1191 29.9139 11.1191 30.2068 10.8263L34.9798 6.05328ZM0.75 6.27295L34.4495 6.27295L34.4495 4.77295L0.75 4.77295L0.75 6.27295Z" fill="white"/></svg></span>';
         } else {
             addToCartBtn.disabled = true;
             addToCartBtn.textContent = 'SOLD OUT';

@@ -56,3 +56,25 @@
     transform: translate(0%, -50%);
     margin-right: 22px;
 }
+
+.mobile-header-wrapper{
+    display: none;
+}
+
+@media screen and (max-width: 560px){
+    .custom-header .custom-announcement-bar,
+    .custom-header .gift-wrap-button-container{
+        display: none;
+    }
+    .header-logo-container{
+        margin: auto;
+    }
+    .mobile-header-wrapper{
+        display: block;
+    }
+    .mobile-nav-toggle{
+        display: block;
+        all: unset;
+        cursor: pointer;
+    }
+}

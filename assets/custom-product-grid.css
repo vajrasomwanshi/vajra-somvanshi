@@ -156,7 +156,6 @@
     font-weight: 400;
     font-size: 14px;
     line-height: 130%;
-    letter-spacing: 0%;
     color: #333333;
 }
 #modalOptions{
@@ -193,11 +192,13 @@
 .quickview-modal__variant-btn:hover {
     border-color: #333;
 }
+
 .quickview-modal__variant-btn.active {
     border-color: #000;
     background: #000;
-    color: white;
+    color: #ffffff;
 }
+
 .quickview-modal__color-bar {
     display: block !important;
     width: 6px;
@@ -213,31 +214,58 @@
 }
 .quickview-modal__select {
     width: 100%;
-    padding: 12px 15px;
-    border: 2px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
+    border: 1px solid #000000;
     cursor: pointer;
     appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23333' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 15px center;
-    padding-right: 40px;
+    background: white;
+    padding: 12px 15px;
+    padding-right: 50px;
+    text-align: left;
+    font-family: inherit;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: -0.02em;
+    vertical-align: middle;
+    background-image: 
+        linear-gradient(to right, transparent 0%, transparent calc(100% - 45px), #000000 calc(100% - 45px), #000000 calc(100% - 44px), transparent calc(100% - 44px)),
+        url("data:image/svg+xml,%3Csvg width='15' height='9' viewBox='0 0 15 9' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.06067 1.06067L7.06067 7.06067L13.0607 1.06067' stroke='black' stroke-width='1.5' stroke-linecap='square'/%3E%3C/svg%3E");
+    background-repeat: no-repeat, no-repeat;
+    background-position: right, right 15px center;
+    background-size: 100% 100%, auto;
+}
+.quickview-modal__select option {
+  text-align: center;
+  padding: 10px;
+}
+.quickview-modal__select:focus-visible {
+  outline: none;
+  box-shadow: none; 
 }
 .quickview-modal__atc-btn {
     width: 100%;
-    padding: 16px;
-    background: #000;
-    color: white;
     border: none;
-    font-size: 16px;
-    font-weight: 600;
     cursor: pointer;
-    border-radius: 4px;
-    transition: background 0.2s;
-    margin-top: auto;
+    font-family: var(--font-heading-family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20.48px;
+    letter-spacing: 0px;
+    text-align: center;
+    vertical-align: middle;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    color: #FFFFFF;
+    background: #000000;
+    padding: 12px 0;
+    position: relative;
+}
+span.span-right-arrow{
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    right: 25px;
+    transform: translate(0px, -50%);
 }
 .quickview-modal__atc-btn:hover {
     background: #333;
