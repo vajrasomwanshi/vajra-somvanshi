@@ -15,6 +15,13 @@
             transform: translate(-{{ block.settings.vertical }}%, -{{ block.settings.horizontal }}%) scale(1.1);
         }
     {% endfor %}
+
+    @media screen and (max-width: 768px){
+        .section-{{ section.id }}{
+            padding-top: {{ section.settings.padding_top | times: 0.45 }}px;
+            padding-bottom: {{ section.settings.padding_bottom | times: 0.45 }}px;
+        }
+    }
 {% endstyle %}
 
 <div class="page-width custom-product-grid-container section-{{ section.id }}">

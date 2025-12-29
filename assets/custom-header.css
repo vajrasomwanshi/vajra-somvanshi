@@ -22,6 +22,7 @@
     text-align: center;
     vertical-align: middle;
     color: #000000;
+    margin: unset
 }
 
 .gift-wrap-button-container{
@@ -57,11 +58,13 @@
     margin-right: 22px;
 }
 
-.mobile-header-wrapper{
+.mobile-header-wrapper,
+.mobile-view{
     display: none;
 }
 
-@media screen and (max-width: 560px){
+
+@media screen and (max-width: 749px){
     .custom-header .custom-announcement-bar,
     .custom-header .gift-wrap-button-container{
         display: none;
@@ -69,12 +72,21 @@
     .header-logo-container{
         margin: auto;
     }
-    .mobile-header-wrapper{
-        display: block;
+    .mobile-header-wrapper,
+    .mobile-view{
+        display: block !important;
     }
     .mobile-nav-toggle{
         display: block;
         all: unset;
         cursor: pointer;
+    }
+    .custom-header .custom-announcement-bar{
+        margin-bottom: 16px;
+    }
+    .mobile-view.gift-wrap-button-container{
+        width: max-content;
+        min-width: 244px;
+        margin: 0 auto;
     }
 }

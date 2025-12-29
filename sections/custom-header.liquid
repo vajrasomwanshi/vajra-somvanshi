@@ -27,17 +27,86 @@
 
     a.animated-link:hover {
         background-position: left bottom;
-        color: #ffffff; /* Optional: text color matches yellow background */
+        color: #ffffff;
     }
 
     .gift-wrap-button-container a.animated-link:hover svg path{
         fill: #ffffff !important;
     }
 
+    #MobileNav {
+        position: absolute;
+        top: 66px;
+        left: 0;
+        right: 0;
+        width: 100vw;
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        background: #F2F2F2;
+        padding: 25px 0;
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                    opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #MobileNav.active {
+        max-height: 1000px;
+        opacity: 1;
+    }
+
+    #MobileNav.active::before {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: -2px;
+        right: 0;
+        width: 108vw;
+        height: 100%;
+        box-shadow: inset 0px 4px 4px 0px #00000026;
+        pointer-events: none;
+        z-index: 999;
+    }
+
+    .mobile-nav-toggle {
+        transition: transform 0.3s ease;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mobile-nav-toggle .menu-icon,
+    .mobile-nav-toggle .close-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .mobile-nav-toggle .close-icon {
+        position: absolute;
+        opacity: 0;
+        transform: rotate(-90deg);
+    }
+
+    .mobile-nav-toggle.active .menu-icon {
+        opacity: 0;
+        transform: rotate(90deg);
+    }
+
+    .mobile-nav-toggle.active .close-icon {
+        opacity: 1;
+        transform: rotate(0deg);
+    }
+
     @media screen and (min-width: 750px) {
         .section-{{ section.id }} {
-        padding-top: {{ section.settings.padding_top }}px;
-        padding-bottom: {{ section.settings.padding_bottom }}px;
+            padding-top: {{ section.settings.padding_top }}px;
+            padding-bottom: {{ section.settings.padding_bottom }}px;
         }
     }
 {% endstyle %}
@@ -45,28 +114,59 @@
     <div class="page-width">
         <div class="mobile-header-wrapper">
             <button class="mobile-nav-toggle" aria-controls="MobileNav" aria-expanded="false">
-                {{ 'icon-mobile-menu.svg' | inline_asset_content }}
+                <span class="menu-icon">{{ 'icon-mobile-menu.svg' | inline_asset_content }}</span>
+                <span class="close-icon">{{ 'icon-close-header.svg' | inline_asset_content }}</span>
             </button>
+            <div id="MobileNav" class="mobile-header-wrapper__content">
+                {% if section.settings.annoucement_bar != blank %}
+                    <div class="mobile-view custom-announcement-bar">
+                        {{ section.settings.annoucement_bar }}
+                    </div>
+                {% endif %}
+                {% if section.settings.button_url != blank %}
+                    <div class="mobile-view gift-wrap-button-container">
+                        <a href="{{ section.settings.button_url }}" class="animated-link">{{ section.settings.button_text }}
+                            <span>{% render 'arrow' %}</span>
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
         </div>
-        <div class="header-logo-container">
-            {% if section.settings.site_logo_text != blank %}
+        {% if section.settings.site_logo_text != blank %}
+            <div class="header-logo-container">
                 <h1><a href="/">{{ section.settings.site_logo_text }}</a></h1>
-            {% endif %}
-        </div>
-        <div class="custom-announcement-bar">
-            {% if section.settings.annoucement_bar != blank %}
+            </div>
+        {% endif %}
+        {% if section.settings.annoucement_bar != blank %}
+            <div class="custom-announcement-bar">
                 {{ section.settings.annoucement_bar }}
-            {% endif %}
-        </div>
-        <div class="gift-wrap-button-container">
-            {% if section.settings.button_url != blank %}
+            </div>
+        {% endif %}
+        {% if section.settings.button_url != blank %}
+            <div class="gift-wrap-button-container">
                 <a href="{{ section.settings.button_url }}" class="animated-link">{{ section.settings.button_text }}
                     <span>{% render 'arrow' %}</span>
                 </a>
-            {% endif %}
-        </div>
+            </div>
+        {% endif %}
     </div>
 </div>
+
+<script>
+    const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+    const mobileNav = document.getElementById('MobileNav');
+
+    if (mobileNavToggle && mobileNav) {
+        mobileNavToggle.addEventListener('click', () => {
+            const isExpanded = mobileNavToggle.getAttribute('aria-expanded') === 'true';
+            
+            mobileNavToggle.setAttribute('aria-expanded', !isExpanded);
+            mobileNav.classList.toggle('active');
+            mobileNavToggle.classList.toggle('active');
+        });
+    }
+</script>
+
 {% schema %}
 {
     "name": "Custom Header",

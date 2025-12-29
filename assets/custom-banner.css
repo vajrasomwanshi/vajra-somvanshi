@@ -1,0 +1,18 @@
+.desktop-view{
+    display: block;
+}
+.mobile-view{
+    display: none;
+}
+
+@media screen and (max-width: 749px){
+    .banner-text-content{
+        position: relative !important;
+    }
+    .desktop-view{
+        display: none;
+    }
+    .mobile-view{
+        display: block;
+    }
+}

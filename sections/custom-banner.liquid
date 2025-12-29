@@ -1,3 +1,4 @@
+{{ 'custom-banner.css' | asset_url | stylesheet_tag }}
 {% style %}
     .section-{{ section.id }}{
         padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
@@ -171,9 +172,16 @@
             {% endif %}
         </div>
     </div>
-    <div class="banner-bottom-content" style="background-color: {{ section.settings.banner_bottom_text_bg_color }}; text-align: center;">
-        {{ section.settings.banner_bottom_text }}
-    </div>
+    {% if section.settings.banner_bottom_text != blank %}
+        <div class="banner-bottom-content desktop-view" style="background-color: {{ section.settings.banner_bottom_text_bg_color }}; text-align: center;">
+            {{ section.settings.banner_bottom_text }}
+        </div>
+    {% endif %}
+    {% if section.settings.mob_banner_bottom_text != blank %}
+        <div class="banner-bottom-content mobile-view" style="background-color: {{ section.settings.banner_bottom_text_bg_color }}; text-align: center;">
+            {{ section.settings.mob_banner_bottom_text |  truncatewords: 6 }}
+        </div>
+    {% endif %}
 </div>
 {% schema %}
 {
@@ -282,6 +290,12 @@
             "type": "text",
             "id": "banner_bottom_text",
             "label": "Banner Bottom Text"
+        },
+        {
+            "type": "text",
+            "id": "mob_banner_bottom_text",
+            "label": "Mobile Banner Bottom Text",
+            "default": "SUSTAINABLE, ETHICALLY MADE ACTIVEWEAR"
         },
         {
             "type": "color",
