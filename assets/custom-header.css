@@ -86,7 +86,9 @@
     }
     .mobile-view.gift-wrap-button-container{
         width: max-content;
-        min-width: 244px;
         margin: 0 auto;
+    }
+    .mobile-view.gift-wrap-button-container a.animated-link{
+        width: max-content;
     }
 }

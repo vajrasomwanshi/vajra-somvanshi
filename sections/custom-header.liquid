@@ -1,161 +1,167 @@
-{{ 'custom-header.css' | asset_url |  stylesheet_tag }}
+{{ 'custom-header.css' | asset_url | stylesheet_tag }}
 {% style %}
-    .custom-header .page-width{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin: auto;
-    }
-    .section-{{ section.id }}{
-        padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-        padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-        {% if section.settings.bg_color != blank %}
-            background-color: {{ section.settings.bg_color }};
-        {% endif %}
-    }
+  .custom-header .page-width {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: auto;
+  }
+  .section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    {% if section.settings.bg_color != blank %}
+      background-color: {{ section.settings.bg_color }};
+    {% endif %}
+  }
 
-    .gift-wrap-button-container a{
-        background-color: {{ section.settings.button_bg_color}};
-    }
+  .gift-wrap-button-container a {
+    background-color: {{ section.settings.button_bg_color }};
+  }
 
-    a.animated-link {
-        background: linear-gradient(to right, black 50%, {{ section.settings.button_bg_color }} 50%);
-        background-size: 200% 102%;
-        background-position: right bottom;
-        transition: background-position 0.5s ease-out, color 0.5s ease-out;
-    }
+  a.animated-link {
+    background: linear-gradient(to right, black 50%, {{ section.settings.button_bg_color }} 50%);
+    background-size: 200% 102%;
+    background-position: right bottom;
+    transition: background-position 0.5s ease-out
+    , color 0.5s ease-out;
+  }
 
-    a.animated-link:hover {
-        background-position: left bottom;
-        color: #ffffff;
-    }
+  a.animated-link:hover {
+    background-position: left bottom;
+    color: #ffffff;
+  }
 
-    .gift-wrap-button-container a.animated-link:hover svg path{
-        fill: #ffffff !important;
-    }
+  .gift-wrap-button-container a.animated-link:hover svg path {
+    fill: #ffffff !important;
+  }
 
-    #MobileNav {
-        position: absolute;
-        top: 66px;
-        left: 0;
-        right: 0;
-        width: 100vw;
-        max-height: 0;
-        opacity: 0;
-        overflow: hidden;
-        background: #F2F2F2;
-        padding: 25px 0;
-        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-                    opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+  #MobileNav {
+    position: absolute;
+    top: 66px;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    background: #F2F2F2;
+    padding: 25px 0;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1)
+    , opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
-    #MobileNav.active {
-        max-height: 1000px;
-        opacity: 1;
-    }
+  #MobileNav.active {
+    max-height: 1000px;
+    opacity: 1;
+  }
 
-    #MobileNav.active::before {
-        content: "";
-        display: block;
-        position: absolute;
-        top: 0;
-        left: -2px;
-        right: 0;
-        width: 108vw;
-        height: 100%;
-        box-shadow: inset 0px 4px 4px 0px #00000026;
-        pointer-events: none;
-        z-index: 999;
-    }
+  #MobileNav.active::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: -2px;
+    right: -2px;
+    height: 100%;
+    box-shadow: inset 0 4px 4px 0 #00000026;
+    pointer-events: none;
+    z-index: 999;
+  }
 
-    .mobile-nav-toggle {
-        transition: transform 0.3s ease;
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+  .mobile-nav-toggle {
+    transition: transform 0.3s ease;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-    .mobile-nav-toggle .menu-icon,
-    .mobile-nav-toggle .close-icon {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: opacity 0.3s ease, transform 0.3s ease;
-    }
+  .mobile-nav-toggle .menu-icon,
+  .mobile-nav-toggle .close-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease
+    , transform 0.3s ease;
+  }
 
-    .mobile-nav-toggle .close-icon {
-        position: absolute;
-        opacity: 0;
-        transform: rotate(-90deg);
-    }
+  .mobile-nav-toggle .close-icon {
+    position: absolute;
+    opacity: 0;
+    transform: rotate(-90deg);
+  }
 
-    .mobile-nav-toggle.active .menu-icon {
-        opacity: 0;
-        transform: rotate(90deg);
-    }
+  .mobile-nav-toggle.active .menu-icon {
+    opacity: 0;
+    transform: rotate(90deg);
+  }
 
-    .mobile-nav-toggle.active .close-icon {
-        opacity: 1;
-        transform: rotate(0deg);
-    }
+  .mobile-nav-toggle.active .close-icon {
+    opacity: 1;
+    transform: rotate(0deg);
+  }
 
-    @media screen and (min-width: 750px) {
-        .section-{{ section.id }} {
-            padding-top: {{ section.settings.padding_top }}px;
-            padding-bottom: {{ section.settings.padding_bottom }}px;
-        }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
     }
+  }
 {% endstyle %}
 <div class="custom-header section-{{ section.id }}">
-    <div class="page-width">
-        <div class="mobile-header-wrapper">
-            <button class="mobile-nav-toggle" aria-controls="MobileNav" aria-expanded="false">
-                <span class="menu-icon">{{ 'icon-mobile-menu.svg' | inline_asset_content }}</span>
-                <span class="close-icon">{{ 'icon-close-header.svg' | inline_asset_content }}</span>
-            </button>
-            <div id="MobileNav" class="mobile-header-wrapper__content">
-                {% if section.settings.annoucement_bar != blank %}
-                    <div class="mobile-view custom-announcement-bar">
-                        {{ section.settings.annoucement_bar }}
-                    </div>
-                {% endif %}
-                {% if section.settings.button_url != blank %}
-                    <div class="mobile-view gift-wrap-button-container">
-                        <a href="{{ section.settings.button_url }}" class="animated-link">{{ section.settings.button_text }}
-                            <span>{% render 'arrow' %}</span>
-                        </a>
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-        {% if section.settings.site_logo_text != blank %}
-            <div class="header-logo-container">
-                <h1><a href="/">{{ section.settings.site_logo_text }}</a></h1>
-            </div>
-        {% endif %}
+  <div class="page-width">
+    <div class="mobile-header-wrapper">
+      <button
+        class="mobile-nav-toggle"
+        aria-controls="MobileNav"
+        aria-expanded="false">
+        <span class="menu-icon">{{ 'icon-mobile-menu.svg' | inline_asset_content }}</span>
+        <span class="close-icon">{{ 'icon-close-header.svg' | inline_asset_content }}</span>
+      </button>
+      <div id="MobileNav" class="mobile-header-wrapper__content">
         {% if section.settings.annoucement_bar != blank %}
-            <div class="custom-announcement-bar">
-                {{ section.settings.annoucement_bar }}
-            </div>
+          <div class="mobile-view custom-announcement-bar">
+            {{ section.settings.annoucement_bar }}
+          </div>
         {% endif %}
         {% if section.settings.button_url != blank %}
-            <div class="gift-wrap-button-container">
-                <a href="{{ section.settings.button_url }}" class="animated-link">{{ section.settings.button_text }}
-                    <span>{% render 'arrow' %}</span>
-                </a>
-            </div>
+          <div class="mobile-view gift-wrap-button-container">
+            <a href="{{ section.settings.button_url }}" class="animated-link">{{ section.settings.button_text }}
+              <span>{% render 'arrow' %}</span>
+            </a>
+          </div>
         {% endif %}
+      </div>
     </div>
+    {% if section.settings.site_logo_text != blank %}
+      <div class="header-logo-container">
+        <h1>
+          <a href="/">{{ section.settings.site_logo_text }}</a>
+        </h1>
+      </div>
+    {% endif %}
+    {% if section.settings.annoucement_bar != blank %}
+      <div class="custom-announcement-bar">
+        {{ section.settings.annoucement_bar }}
+      </div>
+    {% endif %}
+    {% if section.settings.button_url != blank %}
+      <div class="gift-wrap-button-container">
+        <a href="{{ section.settings.button_url }}" class="animated-link">{{ section.settings.button_text }}
+          <span>{% render 'arrow' %}</span>
+        </a>
+      </div>
+    {% endif %}
+  </div>
 </div>
 
 <script>
     const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
     const mobileNav = document.getElementById('MobileNav');
-
+  
     if (mobileNavToggle && mobileNav) {
         mobileNavToggle.addEventListener('click', () => {
             const isExpanded = mobileNavToggle.getAttribute('aria-expanded') === 'true';
@@ -168,67 +174,62 @@
 </script>
 
 {% schema %}
-{
+  {
     "name": "Custom Header",
     "settings": [
-        {
-            "type": "range",
-            "id": "padding_top",
-            "label": "Top spacing",
-            "min": 0,
-            "max": 80,
-            "step": 10,
-            "default": 0
-        },
-        {
-            "type": "range",
-            "id": "padding_bottom",
-            "label": "Bottom spacing",
-            "min": 0,
-            "max": 80,
-            "step": 10,
-            "default": 0
-        },
-        {
-            "type": "header",
-            "content": "Top Header"
-        },
-        {
-            "type": "color",
-            "id": "bg_color",
-            "label": "Background Color"
-        },
-        {
-            "type": "text",
-            "id": "site_logo_text",
-            "label": "Site Logo text"
-        },
-        {
-            "type": "richtext",
-            "id": "annoucement_bar",
-            "label": "Announcement Text"
-        },
-        {
-            "type": "text",
-            "id": "button_text",
-            "label": "Button Text"
-        },
-        {
-            "type": "url",
-            "id": "button_url",
-            "label": "Button Link"
-        },
-        {
-            "type": "color",
-            "id": "button_bg_color",
-            "label": "Button Background",
-            "default": "#FFF544"
-        }
+      {
+        "type": "range",
+        "id": "padding_top",
+        "label": "Top spacing",
+        "min": 0,
+        "max": 80,
+        "step": 10,
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "label": "Bottom spacing",
+        "min": 0,
+        "max": 80,
+        "step": 10,
+        "default": 0
+      },
+      {
+        "type": "header",
+        "content": "Top Header"
+      },
+      {
+        "type": "color",
+        "id": "bg_color",
+        "label": "Background Color"
+      }, {
+        "type": "text",
+        "id": "site_logo_text",
+        "label": "Site Logo text"
+      }, {
+        "type": "richtext",
+        "id": "annoucement_bar",
+        "label": "Announcement Text"
+      }, {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text"
+      }, {
+        "type": "url",
+        "id": "button_url",
+        "label": "Button Link"
+      }, {
+        "type": "color",
+        "id": "button_bg_color",
+        "label": "Button Background",
+        "default": "#FFF544"
+      }
     ],
     "presets": [
-        {
-            "name": "Custom Header"
-        }
+      {
+        "name": "Custom Header"
+      }
     ]
-}
+  }
 {% endschema %}

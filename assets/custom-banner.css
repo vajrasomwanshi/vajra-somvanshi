@@ -1,18 +1,86 @@
 .desktop-view{
     display: block;
 }
-.mobile-view{
+.mobile-view,
+.mobile-view-btn.gift-wrap-button-container{
     display: none;
 }
 
-@media screen and (max-width: 749px){
+.banner-container img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+h2.banner-text-content__head {
+    font-family: var(--font-heading-family);
+    font-weight: 500;
+    font-size: 70px;
+    line-height: 100%;
+    letter-spacing: 0;
+    vertical-align: middle;
+    color: #000000;
+    margin: 0;
+}
+
+.text-content__richtext-wrapper {
+    font-family: var(--font-heading-family);
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 140%;
+    letter-spacing: 0;
+    vertical-align: middle;
+    margin-bottom: 50px;
+}
+
+.text-content__richtext-wrapper * {
+    color: #000000;
+    text-decoration: none;
+    margin: unset;
+}
+
+.custom-banner,
+.banner-text-content-outer-wrapper{
+    position: relative;
+}
+
+@media screen and (max-width: 906px){
     .banner-text-content{
         position: relative !important;
     }
-    .desktop-view{
+    .desktop-view,
+    .banner-text-content-outer-wrapper:not(.mobile-view){
         display: none;
     }
     .mobile-view{
         display: block;
+    }
+    .banner-container,
+    .banner-container img{
+        min-height: 264px;
+    }
+    .mobile-view.banner-text-content-outer-wrapper{
+        padding: 49px 16px 12px 16px;
+    }
+    .mobile-view.banner-text-content-outer-wrapper h2{
+        font-size: 30px;
+        text-align: center;
+        vertical-align: middle;
+    }
+    .mobile-view.banner-text-content-outer-wrapper .text-content__richtext-wrapper{
+        margin-top: 24px;
+        margin-bottom: 0;
+    }
+    .mobile-view.banner-text-content-outer-wrapper .text-content__richtext-wrapper *{
+        font-size: 16px;
+        text-align: center;
+    }
+    .mobile-view-btn.gift-wrap-button-container{
+        display: block;
+        position: absolute;
+        width: max-content;
+        left: 50%;
+        top: 81%;
+        transform: translate(-50%, -81%);
     }
 }
