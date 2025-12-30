@@ -412,6 +412,7 @@
             closeModal();
             // Trigger cart update event
             document.documentElement.dispatchEvent(new CustomEvent('cart:refresh'));
+            window.location.href = '/cart';
           }, 500);
         } else {
           throw new Error('Failed to add to cart');
